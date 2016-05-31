@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Classic Movies Online</title>
+    <link rel="stylesheet" href="/vendor/bootstrap.min.css" />
+    <link rel="stylesheet" href="/styles/style.css" />
+    <script src="/vendor/angular.min.js"></script>
+    <script src="/scripts/clientapp.js"></script>
+    <script src="/scripts/controllers/movieController.js"></script>
+  </head>
+  <body ng-app="movieApp">
+    <header class="header-container">
+    <div class="header-left col-md-4">
+    </div>
+    <div class="header-right col-md-8">
+      <h1>Classic Movies Online</h1>
+      <h2>Your opinion matters!</h2>
+      <h3>Enter a favorite movie...</h3>
+      <h3>Tell us what you think...</h3>
+      <h3>But don't say "doody".</h3>
+    </div>
+    </header>
+    <main ng-controller="MovieController">
+      <div class="container">
+      <div class="col-md-2">
+      </div>
+      <section id="movieSubmission" class="container col-md-8">
+        <h2>Submit a Movie</h2>
+        <form id="movieForm">
+          <label for="title">Title:</label>
+          <input type="text" id="currentMovieTitle" name="title" ng-model="currentMovie.title" />
+
+          <label for="releaseDate">Release Date:</label>
+          <input type="date" id="currentMovieReleaseDate" name="releaseDate" ng-model="currentMovie.releaseDate" />
+
+          <label for="director">Director:</label>
+          <input type="text" id="currentMovieDirector" name="director" ng-model="currentMovie.director" />
+
+          <button ng-click="submitCurrentMovie()">Submit</button>
+        </form>
+      <div class="col-md-2">
+      </div>
+      </section>
+    </div>
+    <div class="container">
+    <div class="col-md-12"
+      <section id="movies">
+        <h2>Movie Listing</h2>
+        <div class="sort">
+          <label for="sortOrder">Sort By</label>
+          <select class="sortOrder" name="sortOrder" ng-model="sortOrder">
+            <option value="+title">Title (A-Z)</option>
+            <option value="-title">Title (Z-A)</option>
+        </select>
+      </div>
+      <div class="movieListing">
+          <ul id="movieList" ng-repeat="movie in movies | orderBy:sortOrder">
+            <li class="movie">
+              <label for="title">Title:</label>
+              <input type="text" id="movie" name="title" ng-model="movie.title" />
+
+              <label for="releaseDate">Release Date:</label>
+              <input type="date" id="releaseDate" name="releaseDate" ng-model="movie.releaseDate" />
+
+              <label for="director">Director:</label>
+              <input type="text" id="director" name="director" ng-model="movie.director" />
+
+              <button class="update" ng-click="updateMovie(movie)">Update</button>
+              <button class="delete" ng-click="deleteMovie(movie._id)">Delete</button>
+              <button class="comments" ng-click="showComments(movie._id)">Comments</button>
+              <div ng-show="displayedMovieId == movie._id">
+                <div ng-repeat="comment in movie.comments">
+                  <p>
+                    {{comment.content}}
+                    Posted By: {{comment.postedBy}}
+                  </p>
+                </div>
+                <form id="commentForm">
+                  <label for="comment">Comment:</label>
+                  <textarea id="comment" name="comment" ng-model="newComment.content"></textarea>
+                  <label for="postedBy">Posted By:</label>
+                  <textarea id="postedBy" name="postedBy" ng-model="newComment.postedBy"></textarea>
+                  <button ng-click="submitComment(movie._id)">Submit</button>
+                </form>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+    </main>
+    <footer>Pat Kahnke - Prime Digital Academy - 2016</footer>
+  </body>
+</html>
